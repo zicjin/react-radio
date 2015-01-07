@@ -1,0 +1,26 @@
+{
+  "name": "react-radio",
+  "version": "0.1.0",
+  "description": "React RadioGroup",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "make"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/radubrehar/react-radio.git"
+  },
+  "keywords": [
+    "radio",
+    "input",
+    "radio-group",
+    "react",
+    "react-component"
+  ],
+  "author": "Radu Brehar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/radubrehar/react-radio/issues"
+  },
+  "homepage": "https://github.com/radubrehar/react-radio"
+}
