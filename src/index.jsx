@@ -3,6 +3,8 @@
 var React = require('react')
 var assign = require('object-assign')
 
+function emptyFn(){}
+
 module.exports = React.createClass({
 
     displayName: 'ReactRadioGroup',
@@ -14,6 +16,55 @@ module.exports = React.createClass({
                 return new Error('Your component has no children. In this case, you should specify an items array.')
             }
         }
+    },
+
+    componentDidUpdate: function() {
+        if (!this.shouldGenerateChildren()){
+            this.setRadioNames()
+            this.setCheckedRadio()
+        }
+    },
+
+    componentDidMount: function() {
+        if (!this.shouldGenerateChildren()){
+            this.setRadioNames()
+            this.setCheckedRadio()
+        }
+    },
+
+    setCheckedRadio: function(){
+        var value = this.props.value != null?
+                        this.props.value:
+                        this.state.defaultValue
+
+        this.someRadio(function(radio){
+            if (radio.value == value){
+                radio.checked = true
+                return true
+            }
+        })
+    },
+
+    setRadioNames: function() {
+        this.forEachRadio(function(radio){
+            radio.setAttribute('name', this.props.name)
+        })
+    },
+
+    someRadio: function(fn){
+        var $radios = this.getRadios()
+
+        return [].some.call($radios, fn, this)
+    },
+
+    forEachRadio: function(fn) {
+        var $radios = this.getRadios()
+
+        return [].forEach.call($radios, fn, this)
+    },
+
+    getRadios: function() {
+        return this.getDOMNode().querySelectorAll('input[type="radio"]')
     },
 
     getDefaultProps: function() {
@@ -28,25 +79,57 @@ module.exports = React.createClass({
         }
     },
 
-    render: function(){
+    getInitialState: function() {
+        return {
+            defaultValue: this.props.defaultValue
+        }
+    },
 
-        var props = this.prepareProps(this.props)
+    render: function(){
+        var props = this.prepareProps(this.props, this.state)
 
         return <div {...props} />
     },
 
-    prepareProps: function(thisProps) {
+    getValue: function() {
+        if (this.value == undefined){
+            this.value = this.state.defaultValue
+        }
+
+        return this.value
+    },
+
+    handleChange: function(event) {
+        var target = event.target
+        var fn     = this.props.onChange || emptyFn
+        var value  = this.value = target.value
+
+        fn(value, event)
+
+        if (this.props.value == null){
+            this.setState({
+                defaultValue: value
+            })
+        }
+    },
+
+    shouldGenerateChildren: function() {
+        return !this.props.children
+    },
+
+    prepareProps: function(thisProps, state) {
 
         var props = {}
 
         assign(props, thisProps)
 
-        if (!props.children){
-            props.labelStyle = this.prepareLabelStyle(props)
-            props.inputStyle = this.prepareInputStyle(props)
-            props.children   = this.prepareChildren(props)
+        if (this.shouldGenerateChildren()){
+            props.labelStyle = this.prepareLabelStyle(props, state)
+            props.inputStyle = this.prepareInputStyle(props, state)
+            props.children   = this.prepareChildren(props, state)
         }
 
+        props.onChange = this.handleChange
 
         return props
     },
@@ -59,19 +142,25 @@ module.exports = React.createClass({
         return assign({}, props.defaultInputStyle, props.inputStyle)
     },
 
-    prepareChildren: function(props) {
+    prepareChildren: function(props, state) {
 
-        return (props.items || []).map(function(item, index){
-            var itemProps = {}
+        var checkedValue = props.value != null?
+                            props.value:
+                            state.defaultValue
+
+        return (props.items || []).map(function(item, index, arr){
+
             var inputStyle = assign({}, props.inputStyle)
             var labelStyle = assign({}, props.labelStyle)
+            var checked    = false
+            var value
             var children
 
             if (typeof item === 'string'){
-                itemProps.value = item
+                value    = item
                 children = item
             } else {
-                itemProps.value = item.value
+                value    = item.value
                 children = item.label || item.children
 
                 if (item.inputStyle){
@@ -82,14 +171,31 @@ module.exports = React.createClass({
                 }
             }
 
-            return <label style={labelStyle}>
-                <input style={inputStyle} {...itemProps} name={props.name} type="radio" onChange={this.onInputChange.bind(this, props, itemProps)}/>
-                {children}
-            </label>
-        }, this)
-    },
+            if (checkedValue == value){
+                checked = true
+            }
 
-    onInputChange: function(props, itemProps, event) {
-        console.log(event.target.value, itemProps.value)
+            var inputProps = {
+                checked : checked,
+                value   : value,
+                name    : props.name,
+                type    : 'radio',
+                style   : inputStyle,
+                onChange: emptyFn
+            }
+
+            var radioProps = {
+                style     : labelStyle,
+                inputProps: inputProps,
+                children  : [
+                    <input {...inputProps}/>,
+                    {children}
+                ]
+            }
+
+            return props.radioFactory?
+                        props.radioFactory(radioProps, index, arr) || <label {...radioProps} />:
+                        <label {...radioProps} />
+        }, this)
     }
 })

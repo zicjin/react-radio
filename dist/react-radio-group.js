@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory();
+		module.exports = factory(require("React"));
 	else if(typeof define === 'function' && define.amd)
-		define(factory);
+		define(["React"], factory);
 	else if(typeof exports === 'object')
-		exports["ReactRadioGroup"] = factory();
+		exports["ReactRadioGroup"] = factory(require("React"));
 	else
-		root["ReactRadioGroup"] = factory();
-})(this, function() {
+		root["ReactRadioGroup"] = factory(root["React"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_1__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -54,7 +54,245 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/** @jsx React.DOM */
+	/** @jsx React.DOM */'use strict';
+
+	var React = __webpack_require__(1)
+	var assign = __webpack_require__(2)
+
+	function emptyFn(){}
+
+	module.exports = React.createClass({
+
+	    displayName: 'ReactRadioGroup',
+
+	    propTypes: {
+	        name: React.PropTypes.string.isRequired,
+	        items: function(props, name){
+	            if (!props.children && !props.items){
+	                return new Error('Your component has no children. In this case, you should specify an items array.')
+	            }
+	        }
+	    },
+
+	    componentDidUpdate: function() {
+	        if (!this.shouldGenerateChildren()){
+	            this.setRadioNames()
+	            this.setCheckedRadio()
+	        }
+	    },
+
+	    componentDidMount: function() {
+	        if (!this.shouldGenerateChildren()){
+	            this.setRadioNames()
+	            this.setCheckedRadio()
+	        }
+	    },
+
+	    setCheckedRadio: function(){
+	        var value = this.props.value != null?
+	                        this.props.value:
+	                        this.state.defaultValue
+
+	        this.someRadio(function(radio){
+	            if (radio.value == value){
+	                radio.checked = true
+	                return true
+	            }
+	        })
+	    },
+
+	    setRadioNames: function() {
+	        this.forEachRadio(function(radio){
+	            radio.setAttribute('name', this.props.name)
+	        })
+	    },
+
+	    someRadio: function(fn){
+	        var $radios = this.getRadios()
+
+	        return [].some.call($radios, fn, this)
+	    },
+
+	    forEachRadio: function(fn) {
+	        var $radios = this.getRadios()
+
+	        return [].forEach.call($radios, fn, this)
+	    },
+
+	    getRadios: function() {
+	        return this.getDOMNode().querySelectorAll('input[type="radio"]')
+	    },
+
+	    getDefaultProps: function() {
+	        return {
+	            defaultLabelStyle: {
+	                cursor: 'pointer',
+	                color: 'red'
+	            },
+	            defaultInputStyle: {
+	                cursor: 'pointer'
+	            }
+	        }
+	    },
+
+	    getInitialState: function() {
+	        return {
+	            defaultValue: this.props.defaultValue
+	        }
+	    },
+
+	    render: function(){
+	        var props = this.prepareProps(this.props, this.state)
+
+	        return React.createElement("div", React.__spread({},  props))
+	    },
+
+	    getValue: function() {
+	        if (this.value == undefined){
+	            this.value = this.state.defaultValue
+	        }
+
+	        return this.value
+	    },
+
+	    handleChange: function(event) {
+	        var target = event.target
+	        var fn     = this.props.onChange || emptyFn
+	        var value  = this.value = target.value
+
+	        fn(value, event)
+
+	        if (this.props.value == null){
+	            this.setState({
+	                defaultValue: value
+	            })
+	        }
+	    },
+
+	    shouldGenerateChildren: function() {
+	        return !this.props.children
+	    },
+
+	    prepareProps: function(thisProps, state) {
+
+	        var props = {}
+
+	        assign(props, thisProps)
+
+	        if (this.shouldGenerateChildren()){
+	            props.labelStyle = this.prepareLabelStyle(props, state)
+	            props.inputStyle = this.prepareInputStyle(props, state)
+	            props.children   = this.prepareChildren(props, state)
+	        }
+
+	        props.onChange = this.handleChange
+
+	        return props
+	    },
+
+	    prepareLabelStyle: function(props) {
+	        return assign({}, props.defaultLabelStyle, props.labelStyle)
+	    },
+
+	    prepareInputStyle: function(props) {
+	        return assign({}, props.defaultInputStyle, props.inputStyle)
+	    },
+
+	    prepareChildren: function(props, state) {
+
+	        var checkedValue = props.value != null?
+	                            props.value:
+	                            state.defaultValue
+
+	        return (props.items || []).map(function(item, index, arr){
+
+	            var inputStyle = assign({}, props.inputStyle)
+	            var labelStyle = assign({}, props.labelStyle)
+	            var checked    = false
+	            var value
+	            var children
+
+	            if (typeof item === 'string'){
+	                value    = item
+	                children = item
+	            } else {
+	                value    = item.value
+	                children = item.label || item.children
+
+	                if (item.inputStyle){
+	                    assign(inputStyle, item.inputStyle)
+	                }
+	                if (item.style){
+	                    assign(labelStyle, item.style)
+	                }
+	            }
+
+	            if (checkedValue == value){
+	                checked = true
+	            }
+
+	            var inputProps = {
+	                checked : checked,
+	                value   : value,
+	                name    : props.name,
+	                type    : 'radio',
+	                style   : inputStyle,
+	                onChange: emptyFn
+	            }
+
+	            var radioProps = {
+	                style     : labelStyle,
+	                inputProps: inputProps,
+	                children  : [
+	                    React.createElement("input", React.__spread({},  inputProps)),
+	                    {children:children}
+	                ]
+	            }
+
+	            return props.radioFactory?
+	                        props.radioFactory(radioProps, index, arr) || React.createElement("label", React.__spread({},  radioProps)):
+	                        React.createElement("label", React.__spread({},  radioProps))
+	        }, this)
+	    }
+	})
+
+/***/ },
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	function ToObject(val) {
+		if (val == null) {
+			throw new TypeError('Object.assign cannot be called with null or undefined');
+		}
+
+		return Object(val);
+	}
+
+	module.exports = Object.assign || function (target, source) {
+		var from;
+		var keys;
+		var to = ToObject(target);
+
+		for (var s = 1; s < arguments.length; s++) {
+			from = arguments[s];
+			keys = Object.keys(Object(from));
+
+			for (var i = 0; i < keys.length; i++) {
+				to[keys[i]] = from[keys[i]];
+			}
+		}
+
+		return to;
+	};
+
 
 /***/ }
 /******/ ])
