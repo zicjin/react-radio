@@ -39,8 +39,9 @@ function onChange(value, event){
     onChange={onChange}
 />
 
+var COLOR = 'red'
 //controlled
-<RadioGroup name="colors" value={'red'} items={colors} onChange={onChange} />
+<RadioGroup name="colors" value={COLOR} items={colors} onChange={onChange} />
 
 <RadioGroup name="colors" value={'red'} onChange={onChange}>
     <input type="radio" value="blue" />blue
