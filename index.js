@@ -112,6 +112,7 @@
 	                style: {border: '1px solid gray'}, 
 	                onChange: this.onColorChange, 
 	                labelStyle: {display: 'block', padding: 10}, 
+	                inputStyle: {marginRight: 5}, 
 	                defaultValue: SELECTED_COLOR
 	            }
 	            )
