@@ -2,6 +2,8 @@
 
 > A carefully crafted radio-group for React
 
+See demo at [zippyui.github.io/react-radio](http://zippyui.github.io/react-radio)
+
 ## Install
 
 ```sh
