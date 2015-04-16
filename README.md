@@ -94,7 +94,8 @@ function onChange(value, event){
     ```js
         var items = [
             {label: 'Green', value: 'green'},
-            {label: 'Blueish', value: 'blue'}
+            {label: 'Blueish', value: 'blue'},
+            {value: 'red'} //'red' will be used as both value and label
         ]
 
         //or

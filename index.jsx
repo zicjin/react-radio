@@ -8,6 +8,9 @@ var items = [
         value: 'apple',
         label: 'Apple'
     },
+    {
+        value: 'test'
+    },
     'orange',
     'watermelon'
 ]
