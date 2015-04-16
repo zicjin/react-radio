@@ -218,7 +218,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                children = item
 	            } else {
 	                value    = item.value
-	                children = item.label || item.children
+	                children = item.label || item.value || item.children
 	                checked  = checkedValue == value
 
 	                if (item.inputStyle){
