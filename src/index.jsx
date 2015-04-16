@@ -70,8 +70,7 @@ module.exports = React.createClass({
     getDefaultProps: function() {
         return {
             defaultLabelStyle: {
-                cursor: 'pointer',
-                color: 'red'
+                cursor: 'pointer'
             },
             defaultInputStyle: {
                 cursor: 'pointer'
