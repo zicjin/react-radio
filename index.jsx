@@ -52,8 +52,9 @@ var App = React.createClass({
         // <Field placeholder="x" style={style} label='First Name' value={VALUE} onChange={this.onChange}/>
 
         return (
-            <div className="App" style={{padding: 20, border: '1px solid red'}} onClick={this.onClick} >
-                <RadioGroup defaultValue={VALUE} onChange={this.onChange} name="values" items={items} radioFactory={buildRadio}/>
+            <div className="App" style={{margin: 20, width: 500}} onClick={this.onClick} >
+                <RadioGroup defaultValue={VALUE} onChange={this.onChange} name="values" items={items}
+                    renderRadio={buildRadio}/>
             </div>
         )
     }

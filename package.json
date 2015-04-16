@@ -31,7 +31,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/radubrehar/react-radio.git"
+    "url": "https://github.com/zippyui/react-radio.git"
   },
   "keywords": [
     "radio",
@@ -40,10 +40,11 @@
     "react",
     "react-component"
   ],
-  "author": "Radu Brehar",
+  "author": "ZippyUI <contact@zippyui.com>",
+  "contributors": [],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/radubrehar/react-radio/issues"
+    "url": "https://github.com/zippyui/react-radio/issues"
   },
-  "homepage": "https://github.com/radubrehar/react-radio"
+  "homepage": "https://github.com/zippyui/react-radio"
 }

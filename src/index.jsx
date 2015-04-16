@@ -193,9 +193,18 @@ module.exports = React.createClass({
                 ]
             }
 
-            return props.radioFactory?
-                        props.radioFactory(radioProps, index, arr) || <label {...radioProps} />:
-                        <label {...radioProps} />
+            var renderFn = props.renderRadio
+            var result
+
+            if (renderFn){
+                result = renderFn(radioProps, index, arr)
+            }
+
+            if (result === undefined){
+                result = <label {...radioProps} />
+            }
+
+            return result
         }, this)
     }
 })
