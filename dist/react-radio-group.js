@@ -126,8 +126,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    getDefaultProps: function() {
 	        return {
 	            defaultLabelStyle: {
-	                cursor: 'pointer',
-	                color: 'red'
+	                cursor: 'pointer'
 	            },
 	            defaultInputStyle: {
 	                cursor: 'pointer'
