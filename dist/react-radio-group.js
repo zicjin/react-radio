@@ -249,6 +249,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            var radioProps = {
 	                index     : index,
+	                value     : value,
 	                style     : labelStyle,
 	                inputProps: inputProps,
 	                children  : [
