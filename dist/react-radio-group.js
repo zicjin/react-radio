@@ -208,16 +208,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            var inputStyle = assign({}, props.inputStyle)
 	            var labelStyle = assign({}, props.labelStyle)
-	            var checked    = false
+	            var checked
 	            var value
 	            var children
 
 	            if (typeof item === 'string'){
 	                value    = item
+	                checked  = checkedValue == value
 	                children = item
 	            } else {
 	                value    = item.value
 	                children = item.label || item.children
+	                checked  = checkedValue == value
 
 	                if (item.inputStyle){
 	                    assign(inputStyle, item.inputStyle)
@@ -227,8 +229,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	                }
 	            }
 
-	            if (checkedValue == value){
-	                checked = true
+	            if (checked){
+	                assign(inputStyle, props.checkedInputStyle)
+	                assign(labelStyle, props.checkedLabelStyle)
+
+	                if (checked && item && item.checkedStyle){
+	                    assign(labelStyle, item.checkedStyle)
+	                }
 	            }
 
 	            var inputProps = {
@@ -241,6 +248,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 
 	            var radioProps = {
+	                index     : index,
 	                style     : labelStyle,
 	                inputProps: inputProps,
 	                children  : [
@@ -249,9 +257,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	                ]
 	            }
 
-	            return props.radioFactory?
-	                        props.radioFactory(radioProps, index, arr) || React.createElement("label", React.__spread({},  radioProps)):
-	                        React.createElement("label", React.__spread({},  radioProps))
+	            var renderFn = props.renderRadio
+	            var result
+
+	            if (renderFn){
+	                result = renderFn(radioProps, index, arr)
+	            }
+
+	            if (result === undefined){
+	                result = React.createElement("label", React.__spread({},  radioProps))
+	            }
+
+	            return result
 	        }, this)
 	    }
 	})
