@@ -1,0 +1,40 @@
+{
+  "name": "react-radio-www",
+  "private": true,
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-css": "webpack --progress --colors --config build-css.config.js",
+    "build-script": "webpack --progress --colors --config build-script.config.js",
+    "build": "npm run build-script && npm run build-css",
+    "dev": "webpack-dev-server --progress --colors --port 8090",
+    "serve": "./node_modules/.bin/http-server"
+  },
+  "devDependencies": {
+    "css-loader": "^0.9.0",
+    "extract-text-webpack-plugin": "^0.3.3",
+    "http-server": "^0.7.2",
+    "jsx-loader": "^0.12.0",
+    "style-loader": "^0.8.1",
+    "stylus-loader": "^0.4.0",
+    "webpack": "^1.4.9",
+    "webpack-dev-server": "^1.6.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zippyui/react-radio.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zippyui/react-radio/issues"
+  },
+  "homepage": "https://github.com/zippyui/react-radio",
+  "dependencies": {
+    "normalize.css": "^3.0.3",
+    "react": "^0.13.1",
+    "react-radio": "^1.0.4"
+  }
+}
