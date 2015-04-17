@@ -17,19 +17,18 @@ var items = [
 
 var VALUE = 'watermelon'
 
-function buildRadio(props, index, arr){
-    if (index < arr.length - 1){
-        props.style.borderBottom = '1px solid gray'
-    }
-
-    props.style.display = 'block'
-}
-
 var App = React.createClass({
 
     onChange: function(value){
-        console.log(arguments)
+        VALUE = value
         this.setState({})
+    },
+
+    buildRadio: function(props, index, arr){
+        props.children[0] = props.checked? 'x' : 'o'
+        //props.children.push(...) you could also add a
+        //hidden input for the value, if you need to submitzzz
+        props.onClick = this.onChange.bind(this, props.value)
     },
 
     render: function() {
@@ -45,12 +44,12 @@ var App = React.createClass({
             >
                 <RadioGroup
                     checkedLabelStyle={{color: 'magenta'}}
-                    defaultValue={VALUE}
+                    value={VALUE}
                     onChange={this.onChange}
                     labelStyle={{padding: 10}}
                     name="values"
                     items={items}
-                    renderRadio={buildRadio}
+                    xrenderRadio={this.buildRadio}
                 />
             </div>
         )

@@ -191,13 +191,16 @@ module.exports = React.createClass({
             }
 
             var radioProps = {
+                key       : index,
+                checked   : checked,
                 index     : index,
+                name      : props.name,
                 value     : value,
                 style     : labelStyle,
                 inputProps: inputProps,
                 children  : [
                     <input {...inputProps}/>,
-                    {children}
+                    children
                 ]
             }
 

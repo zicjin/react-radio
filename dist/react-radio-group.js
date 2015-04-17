@@ -247,13 +247,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 
 	            var radioProps = {
+	                key       : index,
+	                checked   : checked,
 	                index     : index,
+	                name      : props.name,
 	                value     : value,
 	                style     : labelStyle,
 	                inputProps: inputProps,
 	                children  : [
 	                    React.createElement("input", React.__spread({},  inputProps)),
-	                    {children:children}
+	                    children
 	                ]
 	            }
 
