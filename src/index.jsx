@@ -198,6 +198,8 @@ module.exports = React.createClass({
                 value     : value,
                 style     : labelStyle,
                 inputProps: inputProps,
+                label     : children,
+                item      : item,
                 children  : [
                     <input {...inputProps}/>,
                     children
