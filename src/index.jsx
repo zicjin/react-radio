@@ -64,7 +64,7 @@ module.exports = React.createClass({
     },
 
     getRadios: function() {
-        return this.getDOMNode().querySelectorAll('input[type="radio"]')
+        return ReactDOM.findDOMNode(this).querySelectorAll('input[type="radio"]')
     },
 
     getDefaultProps: function() {
